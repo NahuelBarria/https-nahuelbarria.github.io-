@@ -197,5 +197,11 @@ footer {
   .project-card {
     padding: 18px;
   }
+.project-buttons {
+  margin-top: 10px;
+}
 
+.project-buttons .btn {
+  margin-right: 10px;
+}
 }
