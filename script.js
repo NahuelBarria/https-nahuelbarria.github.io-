@@ -16,13 +16,7 @@ function revealOnScroll() {
 window.addEventListener("scroll", revealOnScroll);
 window.addEventListener("load", revealOnScroll);
 
-// CURSOR
-const cursor = document.querySelector(".cursor");
 
-document.addEventListener("mousemove", (e) => {
-  cursor.style.top = e.clientY + "px";
-  cursor.style.left = e.clientX + "px";
-});
 
 // 🔥 GITHUB PROJECTS CON IMAGEN
 fetch("https://api.github.com/users/NahuelBarria/repos")
