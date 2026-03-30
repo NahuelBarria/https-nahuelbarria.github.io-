@@ -24,20 +24,33 @@ document.addEventListener("mousemove", (e) => {
   cursor.style.left = e.clientX + "px";
 });
 
-// GITHUB PROJECTS
+// 🔥 GITHUB PROJECTS CON IMAGEN
 fetch("https://api.github.com/users/NahuelBarria/repos")
   .then(res => res.json())
   .then(data => {
     const container = document.getElementById("projects-container");
 
     data.slice(0, 6).forEach(repo => {
+
+      // imagen placeholder automática
+      const image = `https://picsum.photos/400/250?random=${Math.random()}`;
+
       const card = document.createElement("div");
       card.classList.add("project-card");
 
       card.innerHTML = `
-        <h3>${repo.name}</h3>
-        <p>${repo.description || "Proyecto en desarrollo"}</p>
-        <a href="${repo.html_url}" target="_blank" class="btn">Ver código</a>
+        <div class="project-image">
+          <img src="${image}" alt="preview">
+          <div class="overlay">
+            <a href="${repo.html_url}" target="_blank" class="btn">Código</a>
+            ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="btn btn-outline">Demo</a>` : ""}
+          </div>
+        </div>
+
+        <div class="project-info">
+          <h3>${repo.name}</h3>
+          <p>${repo.description || "Proyecto en desarrollo"}</p>
+        </div>
       `;
 
       container.appendChild(card);
