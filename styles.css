@@ -204,4 +204,9 @@ footer {
 .project-buttons .btn {
   margin-right: 10px;
 }
+  .hero-desc {
+  max-width: 500px;
+  margin: 20px auto;
+  color: #cbd5f5;
+}
 }
