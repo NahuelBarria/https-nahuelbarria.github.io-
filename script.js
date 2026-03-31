@@ -1,46 +1,45 @@
-// SCROLL ANIMATION
-const reveals = document.querySelectorAll(".reveal");
+// NAVBAR TOGGLE MOBILE
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.querySelector('.nav-links');
 
-function revealOnScroll() {
-  const windowHeight = window.innerHeight;
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
 
-  reveals.forEach((el) => {
-    const elementTop = el.getBoundingClientRect().top;
+// Cerrar navbar al hacer click en un link
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
 
-    if (elementTop < windowHeight - 100) {
-      el.classList.add("active");
-    }
-  });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
-
-
-
-// 🔥 GITHUB PROJECTS CON IMAGEN
+// GITHUB PROJECTS
 fetch("https://api.github.com/users/NahuelBarria/repos")
   .then(res => res.json())
   .then(data => {
     const container = document.getElementById("projects-container");
+    container.innerHTML = "";
 
-    data.slice(0, 6).forEach(repo => {
+    const repos = data.filter(r => !r.fork).slice(0, 6);
 
-      // imagen placeholder automática
-      const image = `https://picsum.photos/400/250?random=${Math.random()}`;
+    if (repos.length === 0) {
+      container.innerHTML = '<p class="loading-text">No hay proyectos públicos aún.</p>';
+      return;
+    }
 
+    repos.forEach(repo => {
+      const image = `https://opengraph.githubassets.com/1/NahuelBarria/${repo.name}`;
       const card = document.createElement("div");
       card.classList.add("project-card");
 
       card.innerHTML = `
         <div class="project-image">
-          <img src="${image}" alt="preview">
+          <img src="${image}" alt="${repo.name}">
           <div class="overlay">
-            <a href="${repo.html_url}" target="_blank" class="btn">Código</a>
+            <a href="${repo.html_url}" target="_blank" class="btn">
+              <i class="fab fa-github"></i> Código
+            </a>
             ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="btn btn-outline">Demo</a>` : ""}
           </div>
         </div>
-
         <div class="project-info">
           <h3>${repo.name}</h3>
           <p>${repo.description || "Proyecto en desarrollo"}</p>
@@ -50,4 +49,7 @@ fetch("https://api.github.com/users/NahuelBarria/repos")
       container.appendChild(card);
     });
   })
-  .catch(err => console.log(err));
+  .catch(() => {
+    document.getElementById("projects-container").innerHTML =
+      '<p class="loading-text">No se pudieron cargar los proyectos.</p>';
+  });
